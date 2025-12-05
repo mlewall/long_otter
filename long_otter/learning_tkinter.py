@@ -1,1 +1,50 @@
-# hello world
+from tkinter import *
+from tkinter import ttk
+
+def calculate(*args):
+    try:
+        value = float(feet.get())
+        meters.set(round(0.3048 * value, 4))
+    except ValueError:
+        pass
+
+root = Tk() # this is the creation of the "root" window; has no parent
+root.title("Feet to Meters")
+# print(str(root))
+
+mainframe = ttk.Frame(root, padding=(10)) # pass in the parent as the first parameter
+mainframe['borderwidth'] = 2
+# mainframe['relief']  = 'groove', flat default, raised, sunken, solid, ridge, groove
+mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
+# print(str(mainframe))
+
+s = ttk.Style()
+s.configure("Danger.TFrame", background="red", borderwidth=5, relief='raised')
+ttk.Frame(root, width=200, height=200, style="Danger.TFrame").grid()
+
+danger_label = ttk.Label(mainframe, text = "full name here")
+
+
+feet = StringVar()
+feet_entry = ttk.Entry(mainframe, width=7, textvariable=feet)
+feet_entry.grid(column=2, row=1, sticky=(W, E))
+
+meters = StringVar()
+ttk.Label(mainframe, textvariable=meters).grid(column=2, row=2, sticky=(W, E))
+
+ttk.Button(mainframe, text="Calculate", command=calculate).grid(column=3, row=3, sticky=W)
+
+ttk.Label(mainframe, text="feet").grid(column=3, row=1, sticky=W)
+ttk.Label(mainframe, text="is equivalent to").grid(column=1, row=2, sticky=E)
+ttk.Label(mainframe, text="meters").grid(column=3, row=2, sticky=W)
+
+root.columnconfigure(0, weight=1)
+root.rowconfigure(0, weight=1)
+mainframe.columnconfigure(2, weight=1)
+for child in mainframe.winfo_children(): 
+    child.grid_configure(padx=5, pady=5)
+
+feet_entry.focus()
+root.bind("<Return>", calculate)
+
+root.mainloop()
